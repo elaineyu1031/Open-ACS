@@ -568,8 +568,13 @@ ERROR: Double-spend attempt detected - token_hash: abc123...
 
 ## References
 
-- [VOPRF Specification](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf)
+- [VOPRF IETF Specification](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf)
 - [Ristretto Group](https://ristretto.group/)
-- [Privacy Pass](https://privacypass.github.io/)
-- [Meta's De-identified Authentication](https://engineering.fb.com/2022/03/30/security/de-identified-authentication-at-scale)
+- [Privacy Pass Protocol](https://privacypass.github.io/)
+- [Anonymous Credentials from Bilinear Pairings](https://eprint.iacr.org/2008/136.pdf)
+- [Oblivious Pseudorandom Functions](https://eprint.iacr.org/2014/650.pdf)
+
+---
+
+**Disclaimer**: This is an independent open-source project and is not affiliated with any organization. It implements standard cryptographic protocols based on public research and IETF specifications.
 

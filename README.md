@@ -6,8 +6,9 @@
 
 A comprehensive, production-ready toolkit for implementing privacy-preserving anonymous authentication systems. Built on advanced cryptographic primitives including **VOPRFs** (Verifiable Oblivious Pseudorandom Functions), **Blind Signatures**, and **Key Derivation Functions**.
 
-> **Inspired by Meta's approach to de-identified authentication at scale**  
-> [Read more about Meta's implementation](https://engineering.fb.com/2022/03/30/security/de-identified-authentication-at-scale)
+> **⚠️ Disclaimer**: This is an independent open-source project and is **not affiliated with, endorsed by, or connected to Meta Platforms, Inc.** in any way. This implementation is based on publicly available cryptographic research and standards.
+
+**Note**: Some source files may contain Meta copyright headers from the original reference implementation. This project is independently developed and maintained.
 
 ## 🌟 Key Features
 
@@ -59,6 +60,7 @@ The AI Authentication Toolkit enables privacy-preserving authentication through 
 - **Secure Credential Systems**: Issue credentials that can't be traced back to individuals
 - **Rate Limiting**: Enforce usage limits without user tracking
 - **Abuse Prevention**: Detect fraud while preserving user privacy
+- **Decentralized Identity**: Implement anonymous authentication for Web3 applications
 
 ## 🏗️ Architecture
 
@@ -556,29 +558,36 @@ make clean && make && make tests
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```
-Copyright (c) Meta Platforms, Inc. and affiliates.
-```
+**Note**: Some source files contain copyright headers from Meta Platforms, Inc. as they were derived from publicly available reference implementations. This project is independently developed and not affiliated with Meta.
 
 ## 🙏 Acknowledgments
 
-- Inspired by Meta's de-identified authentication system
-- Built on [libsodium](https://libsodium.org/) cryptographic library
-- Uses [Apache Thrift](https://thrift.apache.org/) for RPC
+- Built on [libsodium](https://libsodium.org/) - Modern cryptographic library
+- Uses [Apache Thrift](https://thrift.apache.org/) for RPC framework
+- Implements cryptographic protocols based on academic research and IETF standards
+- Community contributors and open-source cryptography research
 
 ## 📚 Further Reading
 
-- [Meta's De-identified Authentication Blog Post](https://engineering.fb.com/2022/03/30/security/de-identified-authentication-at-scale)
-- [VOPRF RFC Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf)
-- [Ristretto Group](https://ristretto.group/)
-- [libsodium Documentation](https://doc.libsodium.org/)
+- [VOPRF IETF RFC Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf) - Official VOPRF specification
+- [Privacy Pass Protocol](https://privacypass.github.io/) - Related anonymous credential protocol
+- [Ristretto Group](https://ristretto.group/) - Prime-order elliptic curve group
+- [libsodium Documentation](https://doc.libsodium.org/) - Cryptographic primitives
+- [Anonymous Credentials: A Survey](https://eprint.iacr.org/2013/516.pdf) - Academic overview
 
 ## 📧 Contact & Support
 
 - **Issues**: [GitHub Issues](https://github.com/elaineyu1031/AI-auth-toolkit/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/elaineyu1031/AI-auth-toolkit/discussions)
-- **Security**: Report security issues privately to the maintainers
+- **Security**: Report security vulnerabilities privately to the maintainers
+- **Maintainer**: [@elaineyu1031](https://github.com/elaineyu1031)
+
+## ⚖️ Legal
+
+This is an independent open-source project. It is **not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.** or any other organization. 
+
+The project implements standard cryptographic protocols based on public research and IETF specifications. Some reference implementations were consulted during development, and appropriate attribution is maintained in source files as required by their respective licenses.
 
 ---
 
-**Built with ❤️ for privacy-preserving authentication**
+**Built with ❤️ for privacy-preserving authentication by the open-source community**
