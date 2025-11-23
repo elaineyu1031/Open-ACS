@@ -6,25 +6,26 @@
 
 A comprehensive, production-ready toolkit for implementing privacy-preserving anonymous authentication systems. Built on advanced cryptographic primitives including **VOPRFs** (Verifiable Oblivious Pseudorandom Functions), **Blind Signatures**, and **Key Derivation Functions**.
 
-> **⚠️ Disclaimer**: This is an independent open-source project and is **not affiliated with, endorsed by, or connected to Meta Platforms, Inc.** in any way. This implementation is based on publicly available cryptographic research and standards.
-
-**Note**: Some source files may contain Meta copyright headers from the original reference implementation. This project is independently developed and maintained.
+> **⚠️ Disclaimer**: This is an independent open-source project. This implementation is based on publicly available cryptographic research and standards.
 
 ## 🌟 Key Features
 
 ### Privacy & Security
+
 - **Zero-Knowledge Authentication**: Authenticate users without revealing or linking their identity
 - **Anonymous Credentials**: Issue and verify credentials without tracking user activities
 - **Unlinkability**: Multiple authentication sessions cannot be correlated to the same user
 - **Cryptographic Proofs**: Built-in DLEQ proofs for verifiable correctness
 
 ### Performance & Scalability
+
 - **Lightweight C Library**: Minimal dependencies (only libsodium required)
 - **High Performance**: Optimized for low-latency operations
 - **Production Ready**: Battle-tested cryptographic implementations
 - **Multi-Tenant Support**: Designed for large-scale deployments
 
 ### Extensibility
+
 - **Multiple Curve Support**: Ed25519 and Ristretto255 implementations
 - **Pluggable Components**: Modular design for easy customization
 - **Multiple VOPRF Modes**: Exponential and multiplicative blinding
@@ -111,17 +112,14 @@ The cryptographic core is implemented in portable C and depends only on libsodiu
 - **Curves**: Abstract interface supporting multiple elliptic curves
   - Ed25519: High-performance, widely adopted
   - Ristretto255: Prime-order group for advanced protocols
-  
 - **VOPRF**: Verifiable Oblivious PRF implementations
   - Two-Hash Diffie-Hellman construction
   - Both multiplicative and exponential blinding modes
   - Built-in DLEQ proofs for verifiability
-  
 - **KDF**: Key derivation for attribute-based keys
   - SDHI: Secure deterministic hierarchical instantiation
   - Naor-Reingold: Pseudorandom function family
   - Default: Standard KDF for general use
-  
 - **DLEQ Proofs**: Zero-knowledge proofs of discrete log equality
   - Schnorr-based construction
   - Fiat-Shamir transformation for non-interactivity
@@ -178,13 +176,14 @@ make
 
 - **C/C++ Compiler**: GCC 7+ or Clang 5+
 - **libsodium**: Modern, easy-to-use crypto library
+
   ```bash
   # Ubuntu/Debian
   sudo apt-get install libsodium-dev
-  
+
   # macOS
   brew install libsodium
-  
+
   # From source
   git clone https://github.com/jedisct1/libsodium.git
   cd libsodium
@@ -194,13 +193,14 @@ make
 #### For Demo Service
 
 - **Apache Thrift 0.16+**: RPC framework
+
   ```bash
   # Ubuntu/Debian
   sudo apt-get install thrift-compiler libthrift-dev
-  
+
   # macOS
   brew install thrift
-  
+
   # From source
   # See https://thrift.apache.org/docs/install/
   ```
@@ -277,7 +277,7 @@ randombytes_buf(token, sizeof(token));
 
 unsigned char blinded_element[32];
 unsigned char blinding_factor[32];
-voprf.blind(&voprf, 
+voprf.blind(&voprf,
     blinded_element, sizeof(blinded_element),
     blinding_factor, sizeof(blinding_factor),
     token, sizeof(token));
@@ -346,23 +346,23 @@ For detailed API documentation, see [docs/API.md](docs/API.md).
 
 ### Core VOPRF Functions
 
-| Function | Description |
-|----------|-------------|
-| `setup()` | Generate server key pair |
-| `blind()` | Client blinds a token |
-| `evaluate()` | Server signs blinded token |
-| `verifiable_unblind()` | Client unblinds and verifies |
-| `client_finalize()` | Generate shared secret (client) |
-| `server_finalize()` | Generate shared secret (server) |
+| Function               | Description                     |
+| ---------------------- | ------------------------------- |
+| `setup()`              | Generate server key pair        |
+| `blind()`              | Client blinds a token           |
+| `evaluate()`           | Server signs blinded token      |
+| `verifiable_unblind()` | Client unblinds and verifies    |
+| `client_finalize()`    | Generate shared secret (client) |
+| `server_finalize()`    | Generate shared secret (server) |
 
 ### Service API (Thrift)
 
-| Method | Description |
-|--------|-------------|
-| `getPrimaryPublicKey()` | Retrieve server's primary public key |
+| Method                   | Description                               |
+| ------------------------ | ----------------------------------------- |
+| `getPrimaryPublicKey()`  | Retrieve server's primary public key      |
 | `getPublicKeyAndProof()` | Get attribute-specific public key + proof |
-| `signCredential()` | Sign a blinded credential |
-| `redeemCredential()` | Redeem and validate a credential |
+| `signCredential()`       | Sign a blinded credential                 |
+| `redeemCredential()`     | Redeem and validate a credential          |
 
 ## 🔄 Protocol Flow
 
@@ -372,27 +372,27 @@ For detailed API documentation, see [docs/API.md](docs/API.md).
 sequenceDiagram
     participant C as Client
     participant S as Server
-    
+
     Note over C,S: Setup Phase
     C->>S: getPrimaryPublicKey()
     S-->>C: primary_pk
-    
+
     C->>S: getPublicKeyAndProof(attributes)
     S-->>C: pk, pk_proof
     C->>C: Verify pk_proof using primary_pk
-    
+
     Note over C,S: Credential Issuance
     C->>C: Generate token
     C->>C: Blind token → blinded_token
-    
+
     C->>S: signCredential(blinded_token, attributes)
     S->>S: Authenticate client
     S->>S: Sign blinded_token
     S-->>C: evaluated_token, proof
-    
+
     C->>C: Unblind + verify proof
     C->>C: Generate shared_secret
-    
+
     Note over C,S: Credential Redemption
     C->>S: redeemCredential(token, shared_secret, attributes)
     S->>S: Recompute shared_secret
@@ -403,17 +403,20 @@ sequenceDiagram
 ### Detailed Steps
 
 1. **Setup** (Optional but Recommended)
+
    - Client retrieves and stores server's primary public key
    - Used to verify all subsequently retrieved public keys
    - Prevents key substitution attacks
 
 2. **Key Retrieval**
+
    - Client requests public key for specific attributes (e.g., "app_id", "date")
    - Server derives key pair from attributes using KDF
    - Server returns public key + DLEQ proof
    - Client verifies proof against primary key
 
 3. **Token Issuance**
+
    - Client generates random token
    - Client blinds token using VOPRF
    - Client sends blinded token to server
@@ -449,21 +452,25 @@ sequenceDiagram
 ### Best Practices
 
 1. **Key Management**
+
    - Rotate master keys regularly
    - Use attribute-based key derivation
    - Store keys in secure key management systems (HSM/KMS)
 
 2. **Token Generation**
+
    - Always use cryptographically secure random tokens
    - Minimum 128 bits of entropy
    - Never reuse tokens
 
 3. **Transport Security**
+
    - Always use TLS for client-server communication
    - Implement mutual authentication
    - Use certificate pinning where possible
 
 4. **Rate Limiting**
+
    - Limit credential issuance per client
    - Implement exponential backoff
    - Monitor for abuse patterns
@@ -485,14 +492,14 @@ sequenceDiagram
 
 Measured on: Intel Core i7-9750H @ 2.60GHz, Ubuntu 22.04
 
-| Operation | Time (µs) | Throughput (ops/sec) |
-|-----------|-----------|---------------------|
-| Key Generation | ~50 | 20,000 |
-| Token Blinding | ~80 | 12,500 |
-| Token Evaluation | ~90 | 11,100 |
-| Token Unblinding | ~110 | 9,090 |
-| Finalization | ~45 | 22,200 |
-| **Full Cycle** | **~375** | **~2,600** |
+| Operation        | Time (µs) | Throughput (ops/sec) |
+| ---------------- | --------- | -------------------- |
+| Key Generation   | ~50       | 20,000               |
+| Token Blinding   | ~80       | 12,500               |
+| Token Evaluation | ~90       | 11,100               |
+| Token Unblinding | ~110      | 9,090                |
+| Finalization     | ~45       | 22,200               |
+| **Full Cycle**   | **~375**  | **~2,600**           |
 
 ### Optimization Tips
 
@@ -558,8 +565,6 @@ make clean && make && make tests
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Note**: Some source files contain copyright headers from Meta Platforms, Inc. as they were derived from publicly available reference implementations. This project is independently developed and not affiliated with Meta.
-
 ## 🙏 Acknowledgments
 
 - Built on [libsodium](https://libsodium.org/) - Modern cryptographic library
@@ -583,8 +588,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Maintainer**: [@elaineyu1031](https://github.com/elaineyu1031)
 
 ## ⚖️ Legal
-
-This is an independent open-source project. It is **not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.** or any other organization. 
 
 The project implements standard cryptographic protocols based on public research and IETF specifications. Some reference implementations were consulted during development, and appropriate attribution is maintained in source files as required by their respective licenses.
 
